@@ -1,24 +1,21 @@
 package com.vv.voj.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
+
 import java.util.Date;
+
 import lombok.Data;
 
 /**
- * 帖子
+ * 题目
  *
- * @Author: vv
- * @Date: 2025/6/10 1:33
+ * @TableName question
  */
-@TableName(value = "post")
+@TableName(value = "question")
 @Data
-public class Post implements Serializable {
-
+public class Question {
     /**
      * id
      */
@@ -36,9 +33,34 @@ public class Post implements Serializable {
     private String content;
 
     /**
-     * 标签列表 json
+     * 标签列表（json 数组）
      */
     private String tags;
+
+    /**
+     * 题目标案答案
+     */
+    private String answer;
+
+    /**
+     * 题目提交数
+     */
+    private Integer submitNum;
+
+    /**
+     * 题目通过数
+     */
+    private Integer acceptedNum;
+
+    /**
+     * 判题用例（json 数组）
+     */
+    private String judgeCase;
+
+    /**
+     * 判题配置（json 对象）
+     */
+    private String judgeConfig;
 
     /**
      * 点赞数
@@ -68,8 +90,6 @@ public class Post implements Serializable {
     /**
      * 是否删除
      */
-    @TableLogic
     private Integer isDelete;
-
     private static final long serialVersionUID = 1L;
 }
