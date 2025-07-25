@@ -62,23 +62,41 @@ public class QuestionController {
 //            List<String>转换成 JSON 字符串后存入数据库
             question.setTags(JSONUtil.toJsonStr(tags));
         }
-
         List<JudgeCase> judgeCase = questionAddRequest.getJudgeCase();
         if (judgeCase != null) {
             question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
         }
-
         JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
         if (judgeConfig != null) {
             question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
         }
-
-
         questionService.validQuestion(question, true);
         User loginUser = userService.getLoginUser(request);
         question.setUserId(loginUser.getId());
         question.setFavourNum(0);
         question.setThumbNum(0);
+
+        // 获取最大题号（只考虑未删除题）
+        String prefix = "V";
+        // 取数据库最大编号，默认从 V1000 开始
+        String maxNumber = questionService.lambdaQuery()
+                .eq(Question::getIsDelete, 0)
+                .select(Question::getQuestionNum)
+                .orderByDesc(Question::getQuestionNum)
+                .last("LIMIT 1")
+                .oneOpt()
+                .map(Question::getQuestionNum)
+                .orElse(prefix + "1000");
+        // 截取数字部分
+        String numberPart = maxNumber.substring(prefix.length());
+        // 转成数字
+        int number = Integer.parseInt(numberPart);
+        // 数字加1
+        int nextNumber = number + 1;
+        // 组合新编号，数字部分补零，6位宽度举例
+        String newNumber = prefix + String.format("%04d", nextNumber);
+        question.setQuestionNum(newNumber);
+
         boolean result = questionService.save(question);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         long newQuestionId = question.getId();

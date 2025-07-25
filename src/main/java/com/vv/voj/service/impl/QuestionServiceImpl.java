@@ -69,6 +69,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         String judgeConfig = question.getJudgeConfig();
 
 
+
         // 创建时，参数不能为空
         if (add) {
             //任何一个参数为空抛出异常
@@ -90,6 +91,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         if (StringUtils.isNotBlank(judgeConfig) && judgeConfig.length() > 8192) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "判题配置过长");
         }
+
     }
 
     /**

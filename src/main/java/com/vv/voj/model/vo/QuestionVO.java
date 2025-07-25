@@ -27,6 +27,14 @@ public class QuestionVO {
     private Long id;
 
     /**
+     * @Title: 题目编号
+     * @Author: vv
+     * @Date: 2025/7/25 20:26
+     */
+    private String questionNum;
+
+
+    /**
      * 标题
      */
     private String title;
