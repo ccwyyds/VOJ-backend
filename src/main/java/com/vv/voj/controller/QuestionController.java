@@ -148,7 +148,33 @@ public class QuestionController {
     }
 
     /**
-     * 根据 id 获取
+     * 根据 id 获取题目（仅管理员和本人）
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/get")
+    public BaseResponse<Question> getQuestionById(long id, HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        Question question = questionService.getById(id);
+        System.out.println(question);
+        User loginUser = userService.getLoginUser(request);
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //不是本人和管理员
+        if (!loginUser.getId().equals(question.getUserId()) && !userService.isAdmin(loginUser)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        return ResultUtils.success(question);
+    }
+
+
+    /**
+     * 根据 id 获取题目（脱敏）
      *
      * @param id
      * @return
