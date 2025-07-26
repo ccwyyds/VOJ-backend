@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class JudgeInfo {
     //程序执行信息
-    private Long message;
+    private String message;
     //执行时间(ms)
     private Long time;
     //执行内存(kb)

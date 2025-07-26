@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
  */
 public enum QuestionSubmitStateEnum {
 
-    WAITING("等待中", "0"),
-    RUNNING("运行中", "1"),
-    SUCCEED("成功", "2"),
-    FAILED("失败", "3");
+    WAITING("等待中", "等待中"),
+    RUNNING("运行中", "运行中"),
+    SUCCEED("成功", "成功"),
+    FAILED("失败", "失败");
 
     private final String text;
 
