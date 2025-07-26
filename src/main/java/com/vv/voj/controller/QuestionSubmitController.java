@@ -48,7 +48,7 @@ public class QuestionSubmitController {
      */
     @PostMapping("/")
     public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest, HttpServletRequest request) {
-        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0 || questionSubmitAddRequest.getCode() == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         final User loginUser = userService.getLoginUser(request);
